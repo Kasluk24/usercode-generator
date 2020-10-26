@@ -9,7 +9,7 @@ import datetime
 
 # Argument parser
 parser = argparse.ArgumentParser(description='Create random letter codes')
-parser.add_argument('--randseed', dest='randseed', action='store_const', const=0, default=1, help='Takes a random number for the seed and does not print it out')
+parser.add_argument('--randseed', dest='randseed', action='store_const', const=0, default=1, help='Takes a random number for the seed and does not print it out. File name can be specified.')
 parser.add_argument('--export', dest='export', action='store_const', const=0, default=1, help='Writes the codes to a file')
 
 args = parser.parse_args()
