@@ -18,44 +18,57 @@ args = parser.parse_args()
 
 # Functions
 # Generate the codes
-def createCode(arg_seed, arg_codes):
+def createCode(arg_seed, arg_count):
     var_randnums = []
     var_randabc = []
+    var_numcodes = []
+    var_codes = []
     var_letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
     
     random.seed(arg_seed)
     
-    for i in range(9 * arg_codes):
+    for i in range(9 * arg_count):
         var_randnums.append(random.randint(0, len(var_letters) - 1))
         
     for k in range(len(var_randnums)):
         var_randabc.append(var_letters[var_randnums[k]])
     
+    var_l = 0
+    for i in range(arg_count):
+        for m in range(9):
+            var_randabc.append(var_letters[random.randint(0, len(var_letters) - 1)])
+            var_codes.append()
+        
+        var_randnums
+        var_singlecode = ''
+        
+        
+        
     if args.export == 1:
-        printCodes(var_randabc, arg_codes, arg_seed)
+        pass
     else:
-        exportCodes(var_randabc, arg_codes, arg_seed)
+        pass
     
 # Print the codes
-def printCodes(arg_randabc, arg_quantity, arg_seed):
+def printCodes(arg_randabc, arg_count, arg_seed):
     if args.randseed == 1:
         print("Used seed: " + str(arg_seed))
     else:
         print("Random seed used")
         
-    print("Number of codes: " + str(arg_quantity))
+    print("Number of codes: " + str(arg_count))
     print(datetime.datetime.now().strftime("%c"))
     print("****************************")
     
     var_l = 0
-    for i in range(arg_quantity):
+    for i in range(arg_count):
         print(arg_randabc[var_l] + arg_randabc[var_l + 1] + arg_randabc[var_l + 2] + "-" + arg_randabc[var_l + 3] + arg_randabc[var_l + 4] + arg_randabc[var_l + 5] + "-" + arg_randabc[var_l + 6] + arg_randabc[var_l + 7] + arg_randabc[var_l + 8])
         var_l = var_l + 9
     
     print("****************************")
 
 # Write codes to file
-def exportCodes(arg_randabc, arg_quantity, arg_seed):
+def exportCodes(arg_randabc, arg_count, arg_seed):
     print('Define export directory')
     var_exportpath = input()
     print('Define export filename')
@@ -71,12 +84,12 @@ def exportCodes(arg_randabc, arg_quantity, arg_seed):
     else:
         efile.write("Random seed used" + "\n")
         
-    efile.write("Number of codes: " + str(arg_quantity) + "\n")
+    efile.write("Number of codes: " + str(arg_count) + "\n")
     efile.write(datetime.datetime.now().strftime("%c") + "\n")
     efile.write("****************************" + "\n")
     
     var_l = 0
-    for i in range(arg_quantity):
+    for i in range(arg_count):
         efile.write(arg_randabc[var_l] + arg_randabc[var_l + 1] + arg_randabc[var_l + 2] + "-" + arg_randabc[var_l + 3] + arg_randabc[var_l + 4] + arg_randabc[var_l + 5] + "-" + arg_randabc[var_l + 6] + arg_randabc[var_l + 7] + arg_randabc[var_l + 8] + "\n")
         var_l = var_l + 9
     
