@@ -6,16 +6,18 @@ Created on 26.10.2020
 import random
 import argparse
 import datetime
+import os
 
 # Argument parser
 parser = argparse.ArgumentParser(description='Create random letter codes')
-parser.add_argument('--randseed', dest='randseed', action='store_const', const=0, default=1, help='Takes a random number for the seed and does not print it out. File name can be specified.')
-parser.add_argument('--export', dest='export', action='store_const', const=0, default=1, help='Writes the codes to a file')
+parser.add_argument('--randseed', dest='randseed', action='store_const', const=0, default=1, help='Takes a random number for the seed and does not print it out.')
+parser.add_argument('--export', dest='export', action='store_const', const=0, default=1, help='Writes the codes to a file. File path can be specified.')
 
 args = parser.parse_args()
 
 
 # Functions
+# Generate the codes
 def createCode(arg_seed, arg_codes):
     var_randnums = []
     var_randabc = []
@@ -34,6 +36,7 @@ def createCode(arg_seed, arg_codes):
     else:
         exportCodes(var_randabc, arg_codes, arg_seed)
     
+# Print the codes
 def printCodes(arg_randabc, arg_quantity, arg_seed):
     if args.randseed == 1:
         print("Used seed: " + str(arg_seed))
@@ -51,11 +54,17 @@ def printCodes(arg_randabc, arg_quantity, arg_seed):
     
     print("****************************")
 
+# Write codes to file
 def exportCodes(arg_randabc, arg_quantity, arg_seed):
-    print('Define export filename (with extension)')
+    print('Define export directory')
+    var_exportpath = input()
+    print('Define export filename')
     var_exportfile = input()
+
+    if not os.path.exists(var_exportpath):
+        os.makedirs(var_exportpath)
     
-    efile = open(var_exportfile, "w")
+    efile = open(var_exportpath + "\\" + var_exportfile, "w")
     
     if args.randseed == 1:
         efile.write("Used seed: " + str(arg_seed) + "\n")
