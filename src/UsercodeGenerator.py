@@ -1,6 +1,8 @@
 '''
-Created on 26.10.2020
+@created: 26.10.2020
+@modified: 29.10.2020 
 @author: Lukas Gafner
+@version: 1.0.0
 '''
 
 import random
@@ -27,30 +29,20 @@ args = parser.parse_args()
 # Generate the codes
 def createCode(arg_seed, arg_count):
     var_letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
-    var_finalcodes = ['dummy'] # Lettercodes as String without separator (dummy will be deletet at the end
+    var_finalcodes = [] # Lettercodes as String without separator
 
     random.seed(arg_seed)
     
     var_i = 0
     while var_i < arg_count:
-        var_j = 0
-        while var_j < 1:
-            var_lettercode = "" # Single lettercode as a String
+        var_lettercode = "" # Single lettercode as a String
         
-            for k in range(LETTER_COUNT):            
-                var_lettercode = var_lettercode + var_letters[random.randint(0, len(var_letters) - 1)]     
-            
-            var_j += 1
-            
-            for l in range(len(var_finalcodes)):
-                if var_finalcodes[l] == var_lettercode:
-                    var_j -= 1
-                    break
+        for k in range(LETTER_COUNT):            
+            var_lettercode = var_lettercode + var_letters[random.randint(0, len(var_letters) - 1)]     
         
-        var_finalcodes.append(var_lettercode)
-        var_i = var_i + 1 
-    
-    del var_finalcodes[0]
+        if var_lettercode not in var_finalcodes:
+            var_finalcodes.append(var_lettercode)
+            var_i += 1
     
     formatCodes(var_finalcodes, arg_count, arg_seed)
     
@@ -119,7 +111,7 @@ def exportCodes(arg_formatcodes, arg_count, arg_seed):
 # Begin of the program
 print('Number of codes to generate')
 var_codes = int(input())
-if var_codes > 10000:
+if var_codes > 30000:
     print("Warning! You want to generate a large number of codes. Depending on your hardware the process can take a long time.")
     print("Do you want to continue? [yes / no]")
     if input() not in YES_VALUES:
