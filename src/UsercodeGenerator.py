@@ -12,6 +12,8 @@ import os
 LETTER_COUNT = 9
 GROUP_SIZE = 3
 SEPARATOR_CHAR = '-'
+YES_VALUES = ['yes', 'Yes', 'YES', 'y', 'Y', 'ja', 'Ja', 'JA', 'j', 'J']
+NO_VALUES = ['no', 'No', 'NO', 'n', 'N', 'nein', 'Nein', 'NEIN']
 
 # Argument parser
 parser = argparse.ArgumentParser(description='Create random letter codes')
@@ -120,7 +122,7 @@ var_codes = int(input())
 if var_codes > 10000:
     print("Warning! You want to generate a large number of codes. Depending on your hardware the process can take a long time.")
     print("Do you want to continue? [yes / no]")
-    if input() != "yes":
+    if input() not in YES_VALUES:
         print("Exit application")
         exit()
 
