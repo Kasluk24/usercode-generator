@@ -2,7 +2,7 @@
 @created: 26.10.2020
 @modified: 29.10.2020 
 @author: Lukas Gafner
-@version: 1.0.0
+@version: 1.1.1
 '''
 
 import random
