@@ -9,6 +9,9 @@ import random
 import argparse
 import datetime
 import os
+import builtins
+from _overlapped import NULL
+from builtins import input
 
 # Pseudo Constants
 LETTER_COUNT = 9
@@ -19,8 +22,10 @@ NO_VALUES = ['no', 'No', 'NO', 'n', 'N', 'nein', 'Nein', 'NEIN']
 
 # Argument parser
 parser = argparse.ArgumentParser(description='Create random letter codes')
-parser.add_argument('--randseed', dest='randseed', action='store_const', const=0, default=1, help='Takes a random number for the seed and does not print it out.')
-parser.add_argument('--export', dest='export', action='store_const', const=0, default=1, help='Writes the codes to a file. File path can be specified.')
+parser.add_argument('-c', '--count', dest='count', nargs=1, type=int, help='Define the number of codes to generate')
+parser.add_argument('-s', '--seed', dest='seed', nargs=1, type=int, help='Define seed')
+parser.add_argument('-r', '--randseed', dest='randseed', action='store_const', const=0, default=1, help='Takes a random number for the seed and does not print it out')
+parser.add_argument('-x', '--export', dest='export', action='store_const', const=0, default=1, help='Writes the codes to a file. File path can be specified')
 
 args = parser.parse_args()
 
@@ -109,8 +114,13 @@ def exportCodes(arg_formatcodes, arg_count, arg_seed):
     efile.write("****************************" + "\n")
 
 # Begin of the program
-print('Number of codes to generate')
-var_codes = int(input())
+
+if args.count:
+    var_codes = args.count[0]
+else:
+    print('Number of codes to generate')
+    var_codes = int(input())
+    
 if var_codes > 30000:
     print("Warning! You want to generate a large number of codes. Depending on your hardware the process can take a long time.")
     print("Do you want to continue? [yes / no]")
@@ -118,10 +128,14 @@ if var_codes > 30000:
         print("Exit application")
         exit()
 
-if args.randseed == 1:
+if args.randseed == 0:
+    var_seed = int(datetime.datetime.now().strftime("%f"))
+elif args.seed:
+    var_seed = args.seed[0]  
+else:
     print('Define seed')
     var_seed = int(input())
-else:
-    var_seed = int(datetime.datetime.now().strftime("%f"))
+    
+    
 
 createCode(var_seed, var_codes)
