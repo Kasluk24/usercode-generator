@@ -9,23 +9,24 @@ import random
 import argparse
 import datetime
 import os
-import builtins
-from _overlapped import NULL
-from builtins import input
 
 # Pseudo Constants
-LETTER_COUNT = 9
+GROUP_COUNT = 3
 GROUP_SIZE = 3
 SEPARATOR_CHAR = '-'
 YES_VALUES = ['yes', 'Yes', 'YES', 'y', 'Y', 'ja', 'Ja', 'JA', 'j', 'J']
 NO_VALUES = ['no', 'No', 'NO', 'n', 'N', 'nein', 'Nein', 'NEIN']
 
+
 # Argument parser
 parser = argparse.ArgumentParser(description='Create random letter codes')
 parser.add_argument('-c', '--count', dest='count', nargs=1, type=int, help='Define the number of codes to generate')
-parser.add_argument('-s', '--seed', dest='seed', nargs=1, type=int, help='Define seed')
+parser.add_argument('-e', '--seed', dest='seed', nargs=1, type=int, help='Define seed')
 parser.add_argument('-r', '--randseed', dest='randseed', action='store_const', const=0, default=1, help='Takes a random number for the seed and does not print it out')
 parser.add_argument('-x', '--export', dest='export', action='store_const', const=0, default=1, help='Writes the codes to a file. File path can be specified')
+parser.add_argument('-s', '--groupsize', dest='groupsize', nargs=1, type=int, help='Define the size of a letter group. Default: 3')
+parser.add_argument('-g', '--groupcount', dest='groupcount', nargs=1, type=int, help='Define the number of letter groups. Default 3')
+parser.add_argument('-p', '--separator', dest='separator', nargs=1, type=str, help='Define the separator char. Default: -')
 
 args = parser.parse_args()
 
@@ -42,7 +43,7 @@ def createCode(arg_seed, arg_count):
     while var_i < arg_count:
         var_lettercode = "" # Single lettercode as a String
         
-        for k in range(LETTER_COUNT):            
+        for k in range(int(GROUP_COUNT * GROUP_SIZE)):            
             var_lettercode = var_lettercode + var_letters[random.randint(0, len(var_letters) - 1)]     
         
         if var_lettercode not in var_finalcodes:
@@ -59,7 +60,7 @@ def formatCodes(arg_finalcodes, arg_count, arg_seed):
         var_lettercode = arg_finalcodes[i]
         var_formatcode = ''
         
-        for j in range(int(LETTER_COUNT / GROUP_SIZE)):
+        for j in range(GROUP_COUNT):
             var_formatcode += var_lettercode[j * GROUP_SIZE:(j + 1) * GROUP_SIZE]
             var_formatcode += SEPARATOR_CHAR
         
@@ -113,7 +114,17 @@ def exportCodes(arg_formatcodes, arg_count, arg_seed):
     
     efile.write("****************************" + "\n")
 
+
 # Begin of the program
+if args.groupcount:
+    GROUP_COUNT = args.groupcount[0]
+
+if args.groupsize:
+    GROUP_SIZE = args.groupsize[0]
+
+if args.separator:
+    SEPARATOR_CHAR = args.separator[0]
+    
 
 if args.count:
     var_codes = args.count[0]
@@ -121,12 +132,14 @@ else:
     print('Number of codes to generate')
     var_codes = int(input())
     
+
 if var_codes > 30000:
     print("Warning! You want to generate a large number of codes. Depending on your hardware the process can take a long time.")
     print("Do you want to continue? [yes / no]")
     if input() not in YES_VALUES:
         print("Exit application")
         exit()
+
 
 if args.randseed == 0:
     var_seed = int(datetime.datetime.now().strftime("%f"))
@@ -135,7 +148,6 @@ elif args.seed:
 else:
     print('Define seed')
     var_seed = int(input())
-    
-    
+
 
 createCode(var_seed, var_codes)
