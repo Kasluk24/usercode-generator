@@ -47,21 +47,20 @@ def createCode(arg_seed, arg_count):
     
     var_i = 0
     try:
-        while True:
-            while var_i < arg_count:
-                var_lettercode = "" # Single lettercode as a String
-        
-                for k in range(int(GROUP_COUNT * GROUP_SIZE)):            
-                    var_lettercode = var_lettercode + var_letters[random.randint(0, len(var_letters) - 1)]     
-        
-                    if var_lettercode not in var_finalcodes:
-                        var_finalcodes.append(var_lettercode)
-                        var_i += 1
-    except KeyboardInterrupt:
-        pass
-        
+        while var_i < arg_count:
+            var_lettercode = "" # Single lettercode as a String
     
-    formatCodes(var_finalcodes, arg_count, arg_seed)
+            for k in range(int(GROUP_COUNT * GROUP_SIZE)):            
+                var_lettercode = var_lettercode + var_letters[random.randint(0, len(var_letters) - 1)]     
+    
+                if var_lettercode not in var_finalcodes:
+                    var_finalcodes.append(var_lettercode)
+                    var_i += 1
+    
+    except KeyboardInterrupt:
+        print('Exit')
+	
+    formatCodes(var_finalcodes, arg_count, arg_seed)	
     
 # Formats the codes with separators   
 def formatCodes(arg_finalcodes, arg_count, arg_seed):
