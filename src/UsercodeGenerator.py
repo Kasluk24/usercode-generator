@@ -3,12 +3,18 @@
 @modified: 29.10.2020 
 @author: Lukas Gafner
 @version: 1.1.1
+
+@re
 '''
 
 import random
 import argparse
 import datetime
 import os
+from pynput import keyboard
+from pynput.keyboard import Listener
+
+
 
 # Pseudo Constants
 GROUP_COUNT = 3
@@ -39,18 +45,22 @@ def createCode(arg_seed, arg_count):
 
     random.seed(arg_seed)
     
-    var_i = 0
-    while var_i < arg_count:
-        var_lettercode = "" # Single lettercode as a String
-        
-        for k in range(int(GROUP_COUNT * GROUP_SIZE)):            
-            var_lettercode = var_lettercode + var_letters[random.randint(0, len(var_letters) - 1)]     
-        
-        if var_lettercode not in var_finalcodes:
-            var_finalcodes.append(var_lettercode)
-            var_i += 1
+    try:
+        var_i = 0
+        while var_i < arg_count:
+            var_lettercode = "" # Single lettercode as a String
+            
+            for k in range(int(GROUP_COUNT * GROUP_SIZE)):            
+                var_lettercode = var_lettercode + var_letters[random.randint(0, len(var_letters) - 1)]     
+            
+            if var_lettercode not in var_finalcodes:
+                var_finalcodes.append(var_lettercode)
+                var_i += 1
+
+    except KeyboardInterrupt:
+        print('Exit')
     
-    formatCodes(var_finalcodes, arg_count, arg_seed)
+    formatCodes(var_finalcodes, arg_count, arg_seed)    
     
 # Formats the codes with separators   
 def formatCodes(arg_finalcodes, arg_count, arg_seed):
