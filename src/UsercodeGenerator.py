@@ -1,12 +1,3 @@
-'''
-@created: 26.10.2020
-@modified: 29.10.2020 
-@author: Lukas Gafner
-@version: 1.1.1
-
-@re
-'''
-
 import random
 import argparse
 import datetime
